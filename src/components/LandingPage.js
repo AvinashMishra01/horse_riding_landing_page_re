@@ -5,64 +5,33 @@ import { setPage } from '../redux/bookingSlice';
 // import { motion } from 'framer-motion';
 import './landingpage.css';
 import { Carousel } from './carouselComponent/Carousel';
-import slideData from '../crousel/carouselData.json'
+import slideData from '../jsonData/carouselData.json'
 import Footer from './footer/Footer';
-const horses = [
- {
-  name : "Astable-1",
- horseDetail : [ 
-    { id: 1, name: 'Thunder', image: '/assests/horses/horse2.jpg' },
-  { id: 2, name: 'Lightning', image: '/assests/horses/horse3.jpg' },
-  { id: 3, name: 'Blaze', image: '/assests/horses/horse5.jpg' }, 
-  { id: 4, name: 'Storm', image: '/assests/horses/horse6.jpg' }]
-},
-{
-  name : "Astable-2",
- horseDetail : [ 
-    { id: 1, name: 'Thunder', image: '/assests/horses/horse8.jpg' },
-  { id: 2, name: 'Lightning', image: '/assests/horses/horse14.jpg' },
-  { id: 3, name: 'Blaze', image: '/assests/horses/horse13.jpg'},
-  { id: 4, name: 'Storm', image: '/assests/horses/horse11.jpg' }]
-},
-{
-  name : "Astable-3",
-  horseDetail :[ 
-    { id: 1, name: 'Thunder', image: '/assests/horses/horse11 1.jpg' }, //4 1 7 9 10 12
-  { id: 2, name: 'Lightning', image: '/assests/horses/horse22.jpg' },
-  { id: 3, name: 'Blaze', image: '/assests/horses/horse55.jpg' },
-  { id: 4, name: 'Storm', image: '/assests/horses/horse222.jpg' }]
-},
-{
- name : "Astable-4",
- horseDetail :[ 
-    { id: 1, name: 'Thunder', image: '/assests/horses/horse233.jpg' },
-  { id: 2, name: 'Lightning', image: '/assests/horses/horse333.jpg' },
-  { id: 3, name: 'Blaze', image: '/assests/horses/horse4.jpg' },
-  { id: 4, name: 'Storm', image: '/assests/horses/horse1.jpg' }]
-},
-{
-    name: "Astable-5",
-  horseDetail :[ 
-    { id: 1, name: 'Thunder', image:'/assests/horses/horse7.jpg'},
-  { id: 2, name: 'Lightning', image: '/assests/horses/horse17.jpg' },
-  { id: 3, name: 'Blaze', image: '/assests/horses/horse9.jpg' },
-  { id: 4, name: 'Storm', image: '/assests/horses/horse12.jpg' }]
-}
+import horseData from '../jsonData/horseData.json'
 
-
-];
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleBookNow = (horseName1, stabName1) => {
+    
+    const horseDetails = { horseName:horseName1, stableName:stabName1};
 
-  const handleBookNow = () => {
+    // dispatch(setBookingDetails(horseDetails));
     dispatch(setPage('booking'));
+    navigate('/booking', { state: {horseDetails} })
   };
 
   return (
     <>
     <div className='heador'>
+      <div className='headorContaint'>
+     <img className='h_logo' src="/assests/image/logo.png" alt="Logo" />
     <h1 className='heading'>Horse Ride Booking System</h1>
+    <span > <button className='h_button' onClick={()=>(handleBookNow('',''))}>Book Now</button></span>
+   
+    </div>
     </div>
       <div className='carouselDiv'>
       <Carousel data={slideData.slides} />
@@ -70,16 +39,17 @@ const LandingPage = () => {
     <div className="landing-page">
      
       <div className="horses">
-        { horses.map((stab,index)=>(
+        { horseData?.horses.map((stab,index)=>(
           <div className="astable">
            <h1>{stab.name}</h1>
            <div className="astable2">
-            {stab.horseDetail.map(horse => (
+            {stab.horseDetail.map(horse=> (
               
               <div key={horse.id} className="horse-card">
                 <img src={horse.image} alt={horse.name} />
                 <h2>{horse.name}</h2>
-                <button onClick={handleBookNow}>Book Now</button>
+                <p>Rating: {horse.rating}</p>
+                <button onClick={()=>{ handleBookNow(horse.name,stab.name )}}>Book Now</button>
               </div>
              
             ))}
@@ -98,3 +68,39 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+
+const stables = {
+  stable1: [
+    { horseName: 'Thunder', },
+    { horseName: 'Lightning', },
+    { horseName: 'Blaze', },
+    { horseName: 'Shadow', }
+  ],
+  stable2: [
+    { horseName: 'Storm', },
+    { horseName: 'Whirlwind', },
+    { horseName: 'Comet', },
+    { horseName: 'Meteor', }
+  ],
+  stable3: [
+    { horseName: 'Tornado', },
+    { horseName: 'Hurricane', },
+    { horseName: 'Cyclone', },
+    { horseName: 'Gale', }
+  ],
+  stable4: [
+    { horseName: 'Breeze', },
+    { horseName: 'Zephyr', },
+    { horseName: 'Gust', },
+    { horseName: 'Tempest', }
+  ],
+  stable5: [
+    { horseName: 'Apollo', },
+    { horseName: 'Zeus', },
+    { horseName: 'Hera', },
+    { horseName: 'Athena', }
+  ]
+};
+
+console.log(stables);
